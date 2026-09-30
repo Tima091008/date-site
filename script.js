@@ -111,7 +111,7 @@ document.getElementById('btn-yes').addEventListener('click', function() {
     document.getElementById("ticketOverlay").classList.add("active");
 
     // Отправляем на наш сервер
-    fetch("http://localhost:3000/send-ticket", {
+    fetch("https://date-site-yb47.onrender.com/send-ticket", { // Отправляем заявку на сервер Render
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
