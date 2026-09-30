@@ -27,13 +27,12 @@ app.use(express.json());
 // Создаём подключение к Gmail
 const transporter = nodemailer.createTransport({
 
-    // Используем настройки Gmail
-    service: "gmail",
-
-    // Данные берём из .env
+    host: "smtp.gmail.com", // Адрес SMTP-сервера Gmail
+    port: 587, // Используем SMTP-порт 587
+    secure: false, // Для 587 используем обычное соединение с последующим шифрованием
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        user: process.env.EMAIL_USER, // Gmail из переменных Render
+        pass: process.env.EMAIL_PASS // Пароль приложения Google
     }
 
 });
