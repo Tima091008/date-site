@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Date ❤️</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Плавающие сердечки -->
+    <div class="hearts">
+        <span class="heart">♡</span>
+        <span class="heart">♡</span>
+        <span class="heart">♡</span>
+        <span class="heart">♡</span>
+    </div>
+
+    <main class="container">
+
+        <!-- ЭКРАН 1: ИНТРО -->
+        <section class="step-screen active" id="screen-intro">
+            <div class="header">
+                <div class="small-title">OUR DATE</div>
+                <h1 id="intro-text">У меня к тебе один важный вопрос…</h1>
+                <button class="button" id="btn-next-intro">Узнать</button>
+            </div>
+        </section>
+
+        <!-- ЭКРАН 2: ГЛАВНЫЙ ВОПРОС -->
+        <section class="step-screen" id="screen-question">
+            <div class="header">
+                <h1>Не хочешь сходить со мной на свидание? 😊</h1>
+                <p>Я хотел пригласить тебя не обычным сообщением, поэтому сделал этот сайт. Надеюсь, ты согласишься :)</p>
+                <button class="button" id="btn-go-choose">Давай выберем! ❤️</button>
+            </div>
+            
+            <!-- Пасхалка внизу экрана -->
+            <div class="easter-egg-container">
+                <button id="btn-easter" class="btn-secret">Не нажимать 🚫</button>
+                <div id="easter-message" class="hidden-box">
+                    <p>Я же сказал не нажимать 😭</p>
+                    <button class="button" id="btn-easter-agree">Ладно, теперь точно пойдём! 🩷</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ЭКРАН 3: ВЫБОР СВИДАНИЯ -->
+        <section class="step-screen" id="screen-choose">
+            <div class="header">
+                <h2>🎮 Выбери формат свидания</h2>
+                <p>Выбери то, что тебе ближе, или доверься кнопке рандома!</p>
+            </div>
+
+            <div class="options compact-grid">
+                <div class="option" data-type="date-type" data-value="Кино">
+                    <div class="option-icon">🎬</div>
+                    <div class="option-title">Кино</div>
+                    <div class="option-description">Посмотрим что-нибудь вместе</div>
+                </div>
+
+                <div class="option" data-type="date-type" data-value="Вечер-сюрприз">
+                    <div class="option-icon">🎁</div>
+                    <div class="option-title">Вечер-сюрприз</div>
+                    <div class="option-description">Доверься мне, я всё устрою сам 😉</div>
+                </div>
+
+                <div class="option" data-type="date-type" data-value="Уютный вечер">
+                    <div class="option-icon">☕</div>
+                    <div class="option-title">Уютный вечер</div>
+                    <div class="option-description">Кофе, прогулка и разговоры</div>
+                </div>
+            </div>
+
+            <button class="button secondary-button" id="btn-random">🎲 Выбрать за нас</button>
+            
+            <!-- Пожелание и Календарь -->
+            <div class="card sub-card">
+                <h3 class="section-title">📅 Когда тебе удобно?</h3>
+                <div class="date-time">
+                    <input type="date" id="date">
+                    <input type="time" id="time">
+                </div>
+                <h3 class="section-title" style="margin-top: 20px;">💌 Короткое пожелание?</h3>
+                <textarea id="wish" placeholder="Напиши сюда, если есть идеи..."></textarea>
+            </div>
+
+            <button class="button" id="btn-submit-choice">Далее ✨</button>
+        </section>
+
+        <!-- ЭКРАН 4: НАШ ПЛАН (ТАЙМЛАЙН) -->
+        <section class="step-screen" id="screen-plan">
+            <div class="header">
+                <h2>🗺️ Наш примерный план</h2>
+                <p>Вот как может пройти наш идеальный вечер:</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-time" id="plan-start-time">18:00</div>
+                    <div class="timeline-text">Встречаемся и обнимаемся 🩷</div>
+                </div>
+                <div class="timeline-arrow">↓</div>
+                <div class="timeline-item">
+                    <div class="timeline-time">18:30</div>
+                    <div class="timeline-text" id="plan-activity">Выбранное развлечение</div>
+                </div>
+                <div class="timeline-arrow">↓</div>
+                <div class="timeline-item">
+                    <div class="timeline-time">20:00</div>
+                    <div class="timeline-text">Вкусная еда, кофе и десерт 🍕</div>
+                </div>
+                <div class="timeline-arrow">↓</div>
+                <div class="timeline-item">
+                    <div class="timeline-time">21:00</div>
+                    <div class="timeline-text">Уютная прогулка перед домом</div>
+                </div>
+                <div class="timeline-arrow">↓</div>
+                <div class="timeline-item">
+                    <div class="timeline-time">???</div>
+                    <div class="timeline-text">Секретная часть 👀</div>
+                </div>
+            </div>
+
+            <button class="button" id="btn-go-final">Посмотреть финал 🥹</button>
+        </section>
+
+        <!-- ЭКРАН 5: ФИНАЛЬНЫЙ ВОПРОС -->
+        <section class="step-screen" id="screen-final">
+            <div class="header">
+                <h1>Так что… идём? 🥰</h1>
+            </div>
+
+            <div class="final-buttons">
+                <button class="button" id="btn-yes">🩷 ДА</button>
+                <button class="button btn-think" id="btn-no">🤔 НАДО ПОДУМАТЬ</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- БИЛЕТ (ОПОВЕЩЕНИЕ ОБ УСПЕХЕ) -->
+    <div class="ticket-overlay" id="ticketOverlay">
+        <div class="ticket">
+            <button class="close-ticket" id="closeTicket">&times;</button>
+            <div class="ticket-top">
+                <span>OUR DATE</span>
+                <span>№ 0001</span>
+            </div>
+            <h2>Ваш билет готов! 🎟️</h2>
+            <div class="ticket-line"></div>
+            <div class="ticket-info">
+                <div><span>Тип свидания:</span><strong id="ticketActivity">Кино</strong></div>
+                <div><span>Дата и Время:</span><strong id="ticketDate">--.--.----</strong> в <strong id="ticketTime">--:--</strong></div>
+                <div><span>Статус заявки:</span><strong>Отправлено на почту ❤️</strong></div>
+            </div>
+            <div class="ticket-bottom">
+                <span>УВИДИМСЯ СКОРО</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

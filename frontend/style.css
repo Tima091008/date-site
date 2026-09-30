@@ -1,0 +1,259 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #fff8f6;
+    color: #3a252b;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ФОНОВЫЕ СЕРДЕЧКИ */
+.hearts {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.heart {
+    position: absolute;
+    bottom: -50px;
+    font-size: 25px;
+    color: #d8899d;
+    opacity: 0.15;
+    animation: floatHeart 10s linear infinite;
+}
+
+.heart:nth-child(1) { left: 10%; animation-delay: 0s; }
+.heart:nth-child(2) { left: 30%; animation-delay: 3s; }
+.heart:nth-child(3) { left: 55%; animation-delay: 6s; }
+.heart:nth-child(4) { left: 80%; animation-delay: 2s; }
+
+@keyframes floatHeart {
+    0% { transform: translateY(0); opacity: 0; }
+    20% { opacity: 0.15; }
+    80% { opacity: 0.15; }
+    100% { transform: translateY(-110vh); opacity: 0; }
+}
+
+/* КОНТЕЙНЕР И ПОШАГОВЫЕ ЭКРАНЫ */
+.container {
+    position: relative;
+    z-index: 1;
+    width: 90%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 60px 0;
+}
+
+.step-screen {
+    display: none;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.step-screen.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    background: white;
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 15px 50px rgba(130, 70, 85, 0.08);
+}
+
+.small-title {
+    color: #9e4058;
+    font-size: 14px;
+    letter-spacing: 5px;
+    margin-bottom: 15px;
+}
+
+.header h1, .header h2 {
+    font-size: 32px;
+    margin-bottom: 15px;
+    line-height: 1.3;
+}
+
+.header p {
+    color: #80666c;
+    font-size: 17px;
+    line-height: 1.5;
+}
+
+.card {
+    background: white;
+    border-radius: 25px;
+    padding: 30px;
+    margin-bottom: 25px;
+    box-shadow: 0 15px 50px rgba(130, 70, 85, 0.08);
+}
+
+.sub-card {
+    margin-top: 25px;
+}
+
+.section-title {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+/* СЕТКА С ТРЕМЯ КАРТОЧКАМИ */
+.compact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.option {
+    position: relative;
+    border: 2px solid #ead4da;
+    border-radius: 20px;
+    padding: 20px;
+    cursor: pointer;
+    background: white;
+    transition: 0.25s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.option:hover {
+    transform: translateY(-3px);
+    border-color: #e8a8b8;
+}
+
+.option.selected {
+    background: #fff0f3;
+    border-color: #c96d83;
+    transform: scale(1.02);
+}
+
+.option-icon { font-size: 40px; margin-bottom: 10px; }
+.option-title { font-size: 18px; font-weight: bold; margin-bottom: 5px; }
+.option-description { font-size: 14px; color: #8a7479; }
+
+/* ДАТА И ВРЕМЯ */
+.date-time { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+input[type="date"], input[type="time"], textarea {
+    width: 100%;
+    border: 1px solid #ead4da;
+    border-radius: 15px;
+    padding: 15px;
+    font-size: 16px;
+    color: #3a252b;
+    background: #fffafa;
+    outline: none;
+    transition: 0.3s;
+}
+textarea { min-height: 100px; resize: none; }
+
+/* КНОПКИ */
+.button {
+    width: 100%;
+    border: none;
+    border-radius: 16px;
+    padding: 18px;
+    background: #9e4058;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s;
+    margin-top: 15px;
+}
+.button:hover { background: #86354a; transform: translateY(-2px); }
+.secondary-button { background: #e8a8b8; color: #5c202e; margin-bottom: 10px; }
+.secondary-button:hover { background: #df91a4; }
+
+/* ПАСХАЛКА */
+.easter-egg-container { text-align: center; margin-top: 40px; }
+.btn-secret {
+    background: none; border: none; color: #ead4da; cursor: pointer;
+    font-size: 13px; text-decoration: underline; transition: 0.3s;
+}
+.btn-secret:hover { color: #86354a; }
+.hidden-box {
+    display: none; background: #fff0f3; padding: 20px;
+    border-radius: 20px; border: 2px dashed #c96d83; margin-top: 15px;
+}
+.hidden-box.active { display: block; animation: fadeIn 0.3s ease; }
+
+/* ТАЙМЛАЙН */
+.timeline {
+    background: white; padding: 35px; border-radius: 25px;
+    box-shadow: 0 15px 50px rgba(130, 70, 85, 0.08); text-align: center;
+}
+.timeline-item {
+    display: flex; align-items: center; justify-content: flex-start;
+    background: #fffafa; border: 1px solid #ead4da;
+    padding: 15px 20px; border-radius: 15px; text-align: left;
+}
+.timeline-time {
+    font-weight: bold; color: #9e4058; background: #fff0f3;
+    padding: 5px 10px; border-radius: 8px; margin-right: 15px; min-width: 60px; text-align: center;
+}
+.timeline-text { font-size: 16px; font-weight: 500; }
+.timeline-arrow { font-size: 20px; color: #c96d83; margin: 10px 0; font-weight: bold; }
+
+/* ФИНАЛЬНЫЙ ЭКРАН */
+.final-buttons { display: grid; grid-template-columns: 1fr; gap: 15px; position: relative; }
+.btn-think { background: #80666c; position: relative; transition: all 0.2s ease; }
+.btn-think:hover { background: #634f53; }
+
+/* БИЛЕТ */
+.ticket-overlay {
+    position: fixed; inset: 0; background: rgba(40, 20, 25, 0.65);
+    backdrop-filter: blur(8px); display: flex; justify-content: center;
+    align-items: center; padding: 20px; opacity: 0; visibility: hidden; transition: 0.3s; z-index: 10;
+}
+.ticket-overlay.active { opacity: 1; visibility: visible; }
+.ticket {
+    position: relative; width: 100%; max-width: 450px; background: white;
+    border-radius: 25px; padding: 30px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+}
+.close-ticket { position: absolute; top: 15px; right: 18px; border: none; background: none; font-size: 30px; color: #80666c; cursor: pointer; }
+.ticket-top { display: flex; justify-content: space-between; color: #9e4058; font-size: 13px; letter-spacing: 3px; margin-bottom: 25px; }
+.ticket h2 { font-size: 26px; margin-bottom: 25px; text-align: center; }
+.ticket-line { border-top: 2px dashed #e4bdc7; margin-bottom: 25px; }
+.ticket-info { display: grid; gap: 18px; }
+.ticket-info div { display: flex; flex-direction: column; gap: 5px; }
+.ticket-info span { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #9e4058; }
+.ticket-info strong { font-size: 17px; font-weight: 600; }
+.ticket-bottom { display: flex; justify-content: space-between; border-top: 2px dashed #e4bdc7; margin-top: 30px; padding-top: 20px; color: #9e4058; font-size: 13px; letter-spacing: 2px; }
+
+/* Эффект пульсации для главной кнопки */
+#btn-yes {
+    animation: pulseButton 2s infinite;
+}
+
+@keyframes pulseButton {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(158, 64, 88, 0.4); }
+    70% { transform: scale(1.03); box-shadow: 0 0 0 10px rgba(158, 64, 88, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(158, 64, 88, 0); }
+}
+
+#btn-yes:hover {
+    animation: none;
+    transform: translateY(-2px) scale(1.03);
+}
+
+@media (min-width: 480px) {
+    .compact-grid { grid-template-columns: repeat(3, 1fr); }
+    .final-buttons { grid-template-columns: 1fr 1fr; }
+}
