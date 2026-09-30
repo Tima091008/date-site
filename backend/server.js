@@ -1,50 +1,58 @@
 // Подключаем Express для создания сервера
 const express = require("express");
 
-// Подключаем Nodemailer для отправки писем
-const nodemailer = require("nodemailer");
-
-// Подключаем dotenv для чтения файла .env
-require("dotenv").config();
-
-// Подключаем CORS
+// Подключаем CORS для запросов с GitHub Pages
 const cors = require("cors");
 
-// Создаём приложение Express
+// Подключаем Resend для отправки писем
+const { Resend } = require("resend");
+
+// Загружаем переменные окружения
+require("dotenv").config();
+
+
+// ==============================
+// СОЗДАЁМ СЕРВЕР
+// ==============================
+
+// Создаём Express-приложение
 const app = express();
 
-// Разрешаем запросы от сайта
+// Разрешаем запросы с других сайтов
 app.use(cors());
 
-// Позволяем серверу принимать JSON
+// Разрешаем принимать JSON
 app.use(express.json());
 
 
 // ==============================
-// НАСТРОЙКА GMAIL
+// RESEND
 // ==============================
 
-// Создаём подключение к Gmail
-const transporter = nodemailer.createTransport({
+// Создаём Resend с API-ключом из Render
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-    host: "smtp.gmail.com", // Адрес SMTP-сервера Gmail
-    port: 587, // Используем SMTP-порт 587
-    secure: false, // Для 587 используем обычное соединение с последующим шифрованием
-    auth: {
-        user: process.env.EMAIL_USER, // Gmail из переменных Render
-        pass: process.env.EMAIL_PASS // Пароль приложения Google
-    }
 
+// ==============================
+// ПРОВЕРКА РАБОТЫ СЕРВЕРА
+// ==============================
+
+// Когда открываем главную страницу backend
+app.get("/", (req, res) => {
+
+    // Отправляем сообщение
+    res.send("Date Site Backend работает ❤️");
 });
 
 
 // ==============================
-// ПОЛУЧЕНИЕ ЗАЯВКИ
+// ОТПРАВКА ЗАЯВКИ
 // ==============================
 
+// Получаем заявку от сайта
 app.post("/send-ticket", async (req, res) => {
 
-    // Получаем данные от сайта
+    // Получаем данные из запроса
     const {
         date,
         time,
@@ -55,36 +63,45 @@ app.post("/send-ticket", async (req, res) => {
     } = req.body;
 
 
-    // Создаём содержимое письма
-    const mailText = `
+    // Проверяем, что основные данные существуют
+    if (!date || !time || !activity) {
 
+        // Возвращаем ошибку
+        return res.status(400).json({
+            success: false,
+            message: "Не хватает данных заявки"
+        });
+    }
+
+
+    // Создаём текст письма
+    const mailText = `
 ❤️ НОВАЯ ЗАЯВКА НА ПРОГУЛКУ ❤️
 
 📅 Дата: ${date}
 
 🕐 Время: ${time}
 
-📍 Место: ${place}
+📍 Место: ${place || "Не указано"}
 
 🎀 Что делать: ${activity}
 
-🍕 Поесть: ${food}
+🍕 Поесть: ${food || "Не указано"}
 
 💌 Пожелание:
 ${wish || "Без пожеланий"}
-
-    `;
+`;
 
 
     try {
 
-        // Отправляем письмо
-        await transporter.sendMail({
+        // Отправляем письмо через Resend
+        const result = await resend.emails.send({
 
-            // От кого
-            from: process.env.EMAIL_USER,
+            // Адрес отправителя
+            from: process.env.EMAIL_FROM,
 
-            // Кому
+            // Адрес получателя
             to: process.env.EMAIL_TO,
 
             // Тема письма
@@ -92,30 +109,45 @@ ${wish || "Без пожеланий"}
 
             // Текст письма
             text: mailText
-
         });
 
 
-        // Сообщаем сайту, что всё прошло успешно
+        // Если Resend вернул ошибку
+        if (result.error) {
+
+            // Показываем ошибку в Render Logs
+            console.error("Ошибка Resend:", result.error);
+
+            // Отправляем ошибку сайту
+            return res.status(500).json({
+                success: false,
+                message: "Resend не смог отправить письмо"
+            });
+        }
+
+
+        // Показываем ID письма в Render Logs
+        console.log("Письмо успешно отправлено:", result.data);
+
+
+        // Отправляем успешный ответ сайту
         res.json({
-            success: true
+            success: true,
+            message: "Письмо успешно отправлено"
         });
 
 
     } catch (error) {
 
-        // Показываем ошибку в терминале
-        console.error(error);
+        // Показываем ошибку в Render Logs
+        console.error("Ошибка отправки:", error);
 
-
-        // Сообщаем сайту об ошибке
+        // Отправляем ошибку сайту
         res.status(500).json({
             success: false,
-            message: "Не удалось отправить письмо"
+            message: "Ошибка при отправке письма"
         });
-
     }
-
 });
 
 
@@ -123,8 +155,13 @@ ${wish || "Без пожеланий"}
 // ЗАПУСК СЕРВЕРА
 // ==============================
 
-const PORT = process.env.PORT || 3000; // Берём порт Render, а локально используем 3000
+// Render передаёт свой порт через переменную PORT
+const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => { // Запускаем сервер на выбранном порту
-    console.log(`Сервер запущен на порту ${PORT}`); // Показываем порт в консоли
+// Запускаем сервер
+app.listen(PORT, "0.0.0.0", () => {
+
+    // Показываем информацию в Render Logs
+    console.log(`Сервер запущен на порту ${PORT}`);
 });
+
